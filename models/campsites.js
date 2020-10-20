@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+mongoose.plugin(schema => { schema.options.usePushEach = true });
 const Schema = mongoose.Schema;
 require('mongoose-currency').loadType(mongoose)
 const Currency=mongoose.Types.Currency
