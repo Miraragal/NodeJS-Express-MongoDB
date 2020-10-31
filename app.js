@@ -2,9 +2,9 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var logger = require("morgan");
-const passport= require('passport');
-const config =require('./config')
-// var cookieParser = require("cookie-parser");
+const passport = require("passport");
+const config = require("./config");
+// var cookieParser = require("cookie-parser"); //Remember: no usar con express-session
 // const session = require("express-session");  
 // const FileStore = require("session-file-store")(session);
 // const authenticate= require('./authenticate');
@@ -34,35 +34,16 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-//Middlewares
+// Middlewares (! importante el orden q le damos)
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser("12345-67890"));  //Remember: no usar con express-session
-// app.use(session({
-//   name: 'session-id',
-//   secret: '12345-67890',
-//   saveUninitialized: false,
-//   resave: false,
-//   store: new FileStore()
-// }));
+
 app.use(passport.initialize());
 // app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-// //Authentication
-// function auth(req, res, next) {
-//   console.log(req.user);
-
-//   if (!req.user) {
-//       const err = new Error('You are not authenticated!');
-//       err.status = 401;
-//       return next(err);
-//   } else {
-//           return next();
-//   }
-// }
-// app.use(auth);
+// //Basic-Authentication
 
 app.use(express.static(path.join(__dirname, "public")));
 
