@@ -14,7 +14,8 @@ var usersRouter = require("./routes/users");
 var campsiteRouter = require("./routes/campsiteRouter");
 var partnerRouter = require("./routes/partnerRouter");
 var promotionRouter = require("./routes/promotionRouter");
-const uploadRouter = require('./routes/uploadRouter');
+var uploadRouter = require('./routes/uploadRouter');
+var favoriteRouter= require('./routes/favoriteRouter');
 
 const mongoose = require("mongoose");
 const url = config.mongoUrl;
@@ -32,14 +33,14 @@ connect
 var app = express();
 
 // Secure traffic only 
-// app.all('*', (req, res, next) => {
-//   if (req.secure) {
-//     return next();
-//   } else {
-//       console.log(`Redirecting to: https://${req.hostname}:${app.get('secPort')}${req.url}`);
-//       res.redirect(301, `https://${req.hostname}:${app.get('secPort')}${req.url}`);
-//   }
-// });
+app.all('*', (req, res, next) => {
+  if (req.secure) {
+    return next();
+  } else {
+      console.log(`Redirecting to: https://${req.hostname}:${app.get('secPort')}${req.url}`);
+      res.redirect(301, `https://${req.hostname}:${app.get('secPort')}${req.url}`);
+  }
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -59,6 +60,7 @@ app.use("/users", usersRouter);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/campsites", campsiteRouter);
+app.use('/favorite', favoriteRouter);
 app.use("/partners", partnerRouter);
 app.use("/promotions", promotionRouter);
 app.use('/imageUpload', uploadRouter);
