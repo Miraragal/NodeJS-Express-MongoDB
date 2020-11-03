@@ -20,7 +20,7 @@ const fs = require('fs');
 /** 3000 used in development */
 /** Standar web server in production run in port 80 and the https server run on port 443 */
 var port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
+app.set('port', port);
 app.set('secPort', port+443);
 
 /**
